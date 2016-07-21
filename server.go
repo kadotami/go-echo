@@ -5,8 +5,12 @@ import (
   "github.com/labstack/echo"
   "github.com/labstack/echo/engine/standard"
   "github.com/labstack/echo/middleware"
+  "github.com/jinzhu/gorm"
+  _ "github.com/jinzhu/gorm/dialects/mysql"
+  _ "github.com/go-sql-driver/mysql"
 
   "./api"
+  "./models"
 )
 
 func main() {
