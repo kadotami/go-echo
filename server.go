@@ -6,11 +6,10 @@ import (
   "github.com/labstack/echo/engine/standard"
   "github.com/labstack/echo/middleware"
   "github.com/jinzhu/gorm"
-  _ "github.com/jinzhu/gorm/dialects/mysql"
-  _ "github.com/go-sql-driver/mysql"
+    _ "github.com/jinzhu/gorm/dialects/mysql"
+    _ "github.com/go-sql-driver/mysql"
 
   "./api"
-  "./models"
 )
 
 func main() {
@@ -29,6 +28,10 @@ func main() {
   e.POST("/users", api.SaveUser)
   e.PUT("/users/:id", api.UpdateUser)
   e.DELETE("/users/:id", api.DeleteUser)
+
+  // // group
+  // e.GET("/groups/:id", api.GetGroup)
+  // e.POST("/groups", api.SaveGroup)
 
   // session(login and logout)
   e.POST("/sessions", api.Login)

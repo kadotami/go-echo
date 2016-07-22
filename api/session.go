@@ -6,8 +6,6 @@ import (
 
   "github.com/labstack/echo"
   "github.com/dgrijalva/jwt-go"
-  "github.com/labstack/echo/engine/standard"
-  "github.com/labstack/echo/middleware"
 )
 
 func Login(c echo.Context) error {
