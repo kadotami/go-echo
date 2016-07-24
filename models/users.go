@@ -7,7 +7,7 @@ import (
 )
 
 type Users struct {
-  gorm.Model
+  Model
   Name string
   Email string `gorm:"not null;unique"`
   Password string `gorm:"not null"`

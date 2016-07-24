@@ -11,37 +11,31 @@ import (
 
 type (
   User struct {
-    gorm.Model
-    Name  string
-    Email string
-    Password string
-  }
-
-  UserRequest struct {
+    Model
     Name  string `json:"name"`
     Email string `json:"email"`
-    Password string `json:"password"`
-    PasswordConfimation string `json:"password_confirmation"`
+    Password string `json:"password,omitempty"`
+    PasswordConfimation string `sql:"-" json:"password_confirmation,omitempty"`
   }
 )
 
 func GetUser(c echo.Context) error {
-  id := c.Param("id")
-  return c.JSON(http.StatusOK, map[string]string{"data":id})
+  var user User
+  db.Select("id, name, email").Where("id = ?", c.Param("id")).First(&user)
+  return c.JSON(http.StatusOK, map[string]interface{}{"data": &user})
 }
 
 func SaveUser(c echo.Context) error {
   u := new(User)
-  request := new(UserRequest)
-  if err := c.Bind(request); err != nil {
+  if err := c.Bind(u); err != nil {
     return err
   }
-  if request.Password != request.PasswordConfimation {
+  if u.Password != u.PasswordConfimation {
     return c.JSON(http.StatusBadRequest, map[string]string{"message":"passwordは同じものをいれてください"})
   }
-  u.Name, u.Email, u.Password = request.Name, request.Email, PasswordToHash(request.Password)
+  u.Password = PasswordToHash(u.Password)
   db.Create(&u)
-  return c.String(http.StatusOK, "ok")
+  return c.NoContent(http.StatusOK)
 }
 
 func UpdateUser(c echo.Context) error {

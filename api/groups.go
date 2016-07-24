@@ -4,17 +4,17 @@ import (
   // "fmt"
   "net/http"
   "github.com/labstack/echo"
-  "github.com/jinzhu/gorm"
+  // "github.com/jinzhu/gorm"
 )
 
 type Group struct {
-  gorm.Model
+  Model
   Name string `json:"name"`
 }
 
 func GetGroup(c echo.Context) error {
   var group Group
-  db.Where("id = ?", c.Param("id")).First(&group)
+  db.Select("id, name").Where("id = ?", c.Param("id")).First(&group)
   return c.JSON(http.StatusOK, map[string]interface{}{"group": &group})
 }
 
