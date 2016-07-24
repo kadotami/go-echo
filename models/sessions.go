@@ -5,7 +5,7 @@ import (
 )
 
 type Sessions struct {
-  UserId int `gorm:"not null"`
+  UserId uint `gorm:"not null"`
   Token string `gorm:"not null"`
   ExpiredDate time.Time
 }

@@ -4,7 +4,6 @@ import (
   // "fmt"
   "net/http"
   "github.com/labstack/echo"
-  // "github.com/jinzhu/gorm"
 )
 
 type Group struct {
@@ -20,7 +19,7 @@ func GetGroup(c echo.Context) error {
 
 func GetGroups(c echo.Context) error {
   var groups []Group
-  db.Find(&groups)
+  db.Select("id, name").Find(&groups)
   return c.JSON(http.StatusOK, map[string]interface{}{"data": &groups})
 }
 

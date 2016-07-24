@@ -5,19 +5,16 @@ import (
   "net/http"
   "encoding/hex"
   "github.com/labstack/echo"
-  "github.com/jinzhu/gorm"
   "golang.org/x/crypto/bcrypt"
 )
 
-type (
-  User struct {
-    Model
-    Name  string `json:"name"`
-    Email string `json:"email"`
-    Password string `json:"password,omitempty"`
-    PasswordConfimation string `sql:"-" json:"password_confirmation,omitempty"`
-  }
-)
+type User struct {
+  Model
+  Name  string `json:"name"`
+  Email string `json:"email"`
+  Password string `json:"password,omitempty"`
+  PasswordConfimation string `sql:"-" json:"password_confirmation,omitempty"`
+}
 
 func GetUser(c echo.Context) error {
   var user User
