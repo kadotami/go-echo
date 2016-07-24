@@ -6,7 +6,7 @@ import (
   _ "github.com/go-sql-driver/mysql"
 )
 
-type User struct {
+type Users struct {
   gorm.Model
   Name string
   Email string `gorm:"not null;unique"`

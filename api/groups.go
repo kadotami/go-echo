@@ -2,13 +2,13 @@ package api
 
 import (
   // "fmt"
-  "time"
   "net/http"
   "github.com/labstack/echo"
+  "github.com/jinzhu/gorm"
 )
 
 type Group struct {
-  Id   int
+  gorm.Model
   Name string `json:"name"`
 }
 
@@ -30,7 +30,6 @@ func SaveGroup(c echo.Context) error {
     return err
   }
   db.Create(&g)
-  db.Model(&g).Update("created_at", time.Now())
   return c.NoContent(http.StatusOK)
 }
 
