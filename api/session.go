@@ -37,9 +37,9 @@ func Login(c echo.Context) error {
 
 func Logout(c echo.Context) error {
   if err := Authirization(c); err != nil {
-    return c.JSON(http.StatusBadRequest, map[string]string{"message":"認証期限が切れています"})
+    return c.JSON(http.StatusUnauthorized, map[string]string{"message":"認証期限が切れています"})
   }
-  db.Table("sessions").Where("user_id = ?", 1).Delete("")
+  db.Table("sessions").Where("user_id = ?", CurrentUserId(c)).Delete("")
   return c.String(http.StatusOK, "ok")
 }
 

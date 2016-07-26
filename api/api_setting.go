@@ -31,3 +31,10 @@ func Authirization(c echo.Context) error {
   }
   return nil
 }
+
+func CurrentUserId(c echo.Context) uint {
+  s := new(Session)
+  token := c.Request().Header().Get(echo.HeaderAuthorization)
+  db.Where("token = ?", token).Count(&s)
+  return s.UserId
+}
