@@ -42,7 +42,7 @@ func UpdateUser(c echo.Context) error {
   if err := Authirization(c); err != nil {
     return c.JSON(http.StatusUnauthorized, map[string]string{"message":"認証期限が切れています"})
   }
-  return c.JSON(http.StatusOK, jsonMap)
+  return c.NoContent(http.StatusOK)
 }
 
 func DeleteUser(c echo.Context) error {
