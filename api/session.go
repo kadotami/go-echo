@@ -3,10 +3,7 @@ package api
 import (
   // "fmt"
   "time"
-  "crypto/rand"
   "net/http"
-  "encoding/hex"
-  "golang.org/x/crypto/bcrypt"
   "github.com/labstack/echo"
 )
 
@@ -26,7 +23,7 @@ type (
 func Login(c echo.Context) error {
   u := new(LoginUser)
   c.Bind(u)
-  user_id, is_match := PasswordMatch(u)
+  user_id, is_match := PasswordMatch(u) // @api_setting
   if !is_match {
     return c.JSON(http.StatusBadRequest, map[string]string{"message":"passwordが違います"})
   }
@@ -43,18 +40,3 @@ func Logout(c echo.Context) error {
   return c.String(http.StatusOK, "ok")
 }
 
-func PasswordMatch(u *LoginUser) (uid uint, success bool) {
-  user := new(User)
-  db.Select("id, password").Where("email = ?", u.Email).First(&user)
-  password, _ := hex.DecodeString(user.Password)
-  if bcrypt.CompareHashAndPassword(password, []byte(u.Password)) != nil {
-    return 0, false
-  }
-  return user.ID, true
-}
-
-func CreateToken() string {
-  token := make([]byte, 40)
-  rand.Read(token)
-  return hex.EncodeToString(token)
-}

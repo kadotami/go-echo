@@ -11,5 +11,5 @@ type Documents struct {
   Title string `gorm:"not null"`
   Url string `gorm:"not null;unique"`
   ImageUrl string
-  CreatorId string
+  UserId uint `gorm:"not null"`
 }

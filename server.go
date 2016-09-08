@@ -32,7 +32,10 @@ func main() {
   e.POST("/groups", api.SaveGroup)
   e.DELETE("/groups/:id", api.DeleteGroup)
 
-  // pages
+  // documents
+  e.GET("/documents", api.GetDocuments)
+  e.POST("/documents", api.SaveDocument)
+  e.DELETE("/documents/:id", api.DeleteDocument)
 
   // session(login and logout)
   e.POST("/sessions", api.Login)

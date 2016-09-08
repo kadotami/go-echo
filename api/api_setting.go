@@ -7,6 +7,9 @@ import (
   "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
     _ "github.com/go-sql-driver/mysql"
+  "encoding/hex"
+  "golang.org/x/crypto/bcrypt"
+  "crypto/rand"
 )
 
 var db *gorm.DB
@@ -32,9 +35,34 @@ func Authirization(c echo.Context) error {
   return nil
 }
 
+func ExtensionAuthirization(c echo.Context) error {
+  return nil
+}
+
 func CurrentUserId(c echo.Context) uint {
   s := new(Session)
   token := c.Request().Header().Get(echo.HeaderAuthorization)
   db.Where("token = ?", token).Count(&s)
   return s.UserId
+}
+
+func PasswordToHash(pass string) string {
+  converted, _ := bcrypt.GenerateFromPassword([]byte(pass), 10)
+  return hex.EncodeToString(converted[:])
+}
+
+func PasswordMatch(u *LoginUser) (uid uint, success bool) {
+  user := new(User)
+  db.Select("id, password").Where("email = ?", u.Email).First(&user)
+  password, _ := hex.DecodeString(user.Password)
+  if bcrypt.CompareHashAndPassword(password, []byte(u.Password)) != nil {
+    return 0, false
+  }
+  return user.ID, true
+}
+
+func CreateToken() string {
+  token := make([]byte, 40)
+  rand.Read(token)
+  return hex.EncodeToString(token)
 }

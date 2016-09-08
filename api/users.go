@@ -3,9 +3,7 @@ package api
 import (
   // "fmt"
   "net/http"
-  "encoding/hex"
   "github.com/labstack/echo"
-  "golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -14,6 +12,11 @@ type User struct {
   Email string `json:"email"`
   Password string `json:"password,omitempty"`
   PasswordConfimation string `sql:"-" json:"password_confirmation,omitempty"`
+}
+
+type ReturnUserInfo struct {
+  Model
+  Name  string `json:"name"`
 }
 
 func GetUser(c echo.Context) error {
@@ -50,9 +53,4 @@ func DeleteUser(c echo.Context) error {
     return c.JSON(http.StatusUnauthorized, map[string]string{"message":"認証期限が切れています"})
   }
   return c.String(http.StatusOK, "ok!")
-}
-
-func PasswordToHash(pass string) string {
-  converted, _ := bcrypt.GenerateFromPassword([]byte(pass), 10)
-  return hex.EncodeToString(converted[:])
 }
