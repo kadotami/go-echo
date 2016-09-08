@@ -11,5 +11,5 @@ import (
 func main() {
   db, err := gorm.Open("mysql", "go_user:golangyours@/yours?charset=utf8&parseTime=True&loc=Local")
   fmt.Println(err)
-  db.AutoMigrate(&models.Users{}, &models.Groups{}, &models.Sessions{})
+  db.AutoMigrate(&models.Documents{}, &models.Users{}, &models.Groups{}, &models.Sessions{})
 }
